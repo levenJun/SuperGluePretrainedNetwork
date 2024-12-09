@@ -9,6 +9,7 @@ import random
 import numpy as np
 import torch
 import cv2
+import os
 
 #import sys
 #import os
@@ -28,9 +29,14 @@ def init(cuda):
     global device
     device = 'cuda' if torch.cuda.is_available() and cuda else 'cpu'
     
+    # 获取当前脚本文件的绝对路径
+    current_file_path = os.path.abspath(__file__)
+    # 获取当前脚本文件所在的目录
+    current_directory = os.path.dirname(current_file_path)    
+
     # This class runs the SuperPoint network and processes its outputs.
     global superpoint
-    superpoint = SuperPointFrontend(weights_path="models/weights/superpoint_v1.pth",
+    superpoint = SuperPointFrontend(weights_path=current_directory+"/models/weights/superpoint_v1.pth",
                           nms_dist=4,
                           conf_thresh=0.015,
                           nn_thresh=1,
