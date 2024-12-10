@@ -57,8 +57,11 @@ MESSAGE(${OpenCV_VERSION})
 file(GLOB UTILS_SRC "Interpreter/Utils/*.cpp")
 file(GLOB SUPERPOINT_SRC "Interpreter/Python/*.cpp")
 
-add_executable(${PROJECT_NAME} test/TestSpCxx.cpp ${UTILS_SRC} ${SUPERPOINT_SRC})
-
+add_executable(${PROJECT_NAME}_sp test/TestSpCxx.cpp ${UTILS_SRC} ${SUPERPOINT_SRC})
 # Link against Python libraries
-target_include_directories(${PROJECT_NAME} PRIVATE ${Python3_INCLUDE_DIRS} ./ )
-target_link_libraries(${PROJECT_NAME} PRIVATE ${PUBLIC_LIBRARIES} ${LIBRARIES})
+target_include_directories(${PROJECT_NAME}_sp PRIVATE ${Python3_INCLUDE_DIRS} ./ )
+target_link_libraries(${PROJECT_NAME}_sp PRIVATE ${PUBLIC_LIBRARIES} ${LIBRARIES})
+
+add_executable(${PROJECT_NAME}_sg test/TestSpAndSgCxx.cpp ${UTILS_SRC} ${SUPERPOINT_SRC})
+target_include_directories(${PROJECT_NAME}_sg PRIVATE ${Python3_INCLUDE_DIRS} ./ )
+target_link_libraries(${PROJECT_NAME}_sg PRIVATE ${PUBLIC_LIBRARIES} ${LIBRARIES})

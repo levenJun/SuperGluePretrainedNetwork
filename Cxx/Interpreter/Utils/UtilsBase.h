@@ -25,14 +25,16 @@ struct Timer {
         std::cout << tag_<<" use time(ms):" << std::chrono::duration_cast<std::chrono::duration<double,std::milli> >(time_end - time_start).count() << std::endl;
 
     }
-    void ticks(std::string tmpTag = ""){
+    double ticks(std::string tmpTag = ""){
         auto time_end = std::chrono::steady_clock::now();
+        double period = std::chrono::duration_cast<std::chrono::duration<double,std::milli> >(time_end - time_start).count();
         if(tmpTag.empty()){
-            std::cout << tag_ <<" use time(ms):" << std::chrono::duration_cast<std::chrono::duration<double,std::milli> >(time_end - time_start).count() << std::endl;  
+            std::cout << tag_ <<" use time(ms):" << period << std::endl;  
         }else{
-            std::cout << tmpTag <<" use time(ms):" << std::chrono::duration_cast<std::chrono::duration<double,std::milli> >(time_end - time_start).count() << std::endl;  
+            std::cout << tmpTag <<" use time(ms):" << period << std::endl;  
         }
         time_start = std::chrono::steady_clock::now();
+        return period;
     }
     std::chrono::steady_clock::time_point time_start;
     std::string tag_;

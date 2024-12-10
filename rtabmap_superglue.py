@@ -38,7 +38,18 @@ def init(descriptorDim, matchThreshold, iterations, cuda, model):
     global superglue
     superglue = SuperGlue(config.get('superglue', {})).eval().to(device)
 
-
+'''
+description: 对输入的特征和描述子进行sp匹配
+param {*} kptsFrom 正常xy序的二维特征点列表
+param {*} kptsTo
+param {*} scoresFrom  xy特征列表对应的特征分数
+param {*} scoresTo
+param {*} descriptorsFrom xy特征列表对应的D维描述子
+param {*} descriptorsTo
+param {*} imageWidth  图像宽高
+param {*} imageHeight
+return {*}
+'''
 def match(kptsFrom, kptsTo, scoresFrom, scoresTo, descriptorsFrom, descriptorsTo, imageWidth, imageHeight):
     #print("SuperGlue python match()")
     global device

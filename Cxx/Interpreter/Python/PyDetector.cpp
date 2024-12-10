@@ -178,7 +178,8 @@ std::vector<cv::KeyPoint> PyDetector::generateKeypointsImpl(const cv::Mat & imag
 					keypoints.reserve(nKpts);
 					for (int i = 0; i < nKpts*kptSize; i+=kptSize)
 					{
-						cv::KeyPoint kpt(c_out[i], c_out[i+1], 8, -1, c_out[i+2]);
+						//特征点 (x,y) size固定8, angle固定-1, _response填充为score
+						cv::KeyPoint kpt(c_out[i], c_out[i+1], 2, -1, c_out[i+2]);
 						keypoints.push_back(kpt);
 					}
 

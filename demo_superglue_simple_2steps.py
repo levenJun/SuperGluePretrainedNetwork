@@ -28,8 +28,8 @@ imgPathPair = ["assets/image_pairs/1403715273262142976.png", "assets/image_pairs
 
 if __name__ == '__main__':
     # k_thresh = 0.005 #特征提取阈值
-    k_thresh = 0.005 #特征提取阈值    
-    m_thresh = 0.52   #特征匹配阈值
+    k_thresh = 0.015 #特征提取阈值    
+    m_thresh = 0.2   #特征匹配阈值
     device = 'cpu'
     print('Running inference on device \"{}\"'.format(device))
 
@@ -38,12 +38,15 @@ if __name__ == '__main__':
     superpoint = SuperPointFrontend(weights_path='models/weights/superpoint_v1.pth',
                                     nms_dist=4,
                                     conf_thresh=k_thresh,
-                                    nn_thresh=0.7,
+                                    # nn_thresh=0.7,
+                                    nn_thresh=1,
                                     cuda=False)
 
     # 初始化 SuperGlue
     superglue = SuperGlue({'weights': 'indoor',
                            'match_threshold': m_thresh,  # 设置匹配阈值
+                           'sinkhorn_iterations': 20,
+                           'descriptor_dim' : 256
                            }).to(device).eval()
     # --------------------------------准备工作1------------------------------------
 
@@ -86,9 +89,9 @@ if __name__ == '__main__':
     scores0 = torch.from_numpy(scores0).float().unsqueeze(0)  # (1, N)
     scores1 = torch.from_numpy(scores1).float().unsqueeze(0)  # (1, N)
     
-    print(f"keypoints0 shape={keypoints0_xy.shape}")
-    print(f"descriptors0 shape={descriptors0.shape}")
-    print(f"scores0 shape={scores0.shape}")
+    print(f"keypoints0 shape={keypoints0_xy.shape} ,keypoints1 shape={keypoints1_xy.shape}")
+    print(f"descriptors0 shape={descriptors0.shape}, descriptors1 shape={descriptors1.shape}")
+    print(f"scores0 shape={scores0.shape}, scores1 shape={scores1.shape}")
     # --------------------------------核心步骤1------------------------------------
 
     # --------------------------------核心步骤2：sg特征匹配------------------------------------
